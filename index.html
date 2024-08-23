@@ -521,39 +521,33 @@
                     
                     <div class="col-lg-7">
 
-                        <form class="form" id="contact-form" method="post" action="https://ui-themez.smartinnovates.net/items/zain/contact.php">
-
+                        <form class="form" id="contact-form">
                             <div class="messages"></div>
-
                             <div class="controls">
-
                                 <div class="row">
-
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input id="form_name" type="text" name="name" placeholder="Name" required="required">
+                                            <input id="form_name" type="text" name="from_name" placeholder="Name" required="required">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input id="form_email" type="email" name="email" placeholder="Email" required="required">
+                                            <input id="from_email" type="email" name="from_email" placeholder="Email" required="required">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input id="form_subject" type="text" name="subject" placeholder="Subject">
+                                            <input id="from_subject" type="text" name="from_subject" placeholder="Subject">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea id="form_message" name="message" placeholder="Message" rows="4" required="required"></textarea>
+                                            <textarea id="from_message" name="message" placeholder="Message" rows="4" required="required"></textarea>
                                         </div>
                                     </div>
-
                                     <div class="col-md-12 text-center">
                                         <button type="submit" class="butn butn-bg"><span>Send Message</span></button>
                                     </div>
-
                                 </div>                             
                             </div>
                         </form>
@@ -625,9 +619,31 @@
 
         <!-- validator js -->
         <script src="js/validator.js"></script>
+        <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
         <!-- custom scripts -->
         <script src="js/scripts.js"></script>
+
+        <script>
+            emailjs.init("9VeAH5pxb9DYCDGdo"); // Replace with your EmailJS user ID
+    
+            $(document).ready(function() {
+                $('#contact-form').submit(function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+    
+                    var form = $(this);
+                    var formData = form.serialize();
+    
+                    emailjs.sendForm('service_yxl418q', 'template_dmzgytn', form[0])
+                        .then(function(response) {
+                            $('.messages').html('<p class="text-success">Message sent successfully!</p>');
+                            form[0].reset(); // Reset the form
+                        }, function(error) {
+                            $('.messages').html('<p class="text-danger">There was an error sending the message. Please try again.</p>');
+                        });
+                });
+            });
+        </script>
 
     </body>
 
